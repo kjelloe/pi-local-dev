@@ -50,10 +50,15 @@ Load only what is relevant to the current task.
 
 ## Where to Find Things
 
-- `memory/`    — architecture, domain model, API, DB, design decisions, known gotchas
-- `patterns/`  — implementation recipes (new endpoint, migration, Playwright test, etc.)
-- `prompts/`   — reusable agent workflows (add feature, fix bug, review, release)
+- `memory/models.md`     — available models, benchmark scores, llama-server flags
+- `memory/gotchas.md`    — known issues: ctx caps, MTP, tensor_split, Pi compat flags
+- `memory/decisions.md`  — design decisions and their rationale
+- `patterns/start-server.md` — how to start with different models, health check, troubleshooting
+- `prompts/add-feature.md`   — workflow for implementing a feature
+- `prompts/fix-bug.md`       — workflow for debugging and fixing
+- `prompts/review.md`        — workflow for code review
+- `prompts/implement-spec.md`— workflow for building out a spec
 - `specs/`     — feature specifications
-- `tests/`     — unit/integration tests
+- `tests/`     — unit, integration, and smoke tests
 - `src/`       — application source
 - `scripts/`   — operational scripts (model server, CI helpers)
