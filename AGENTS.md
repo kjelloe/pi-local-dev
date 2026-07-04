@@ -8,14 +8,21 @@ All project knowledge lives here — not in conversations.
 ## Commands
 
 ```bash
-# Start the model server (port 8080, noctrex-qwen3.6:35b by default)
-./scripts/start-llama.sh
+# Start server + Pi in one command (alias from anywhere)
+localai
 
-# Override model or context
+# Or from the repo directly
+./scripts/dev.sh
+
+# Override model or context (server only)
 MODEL=Qwen3-Coder-30B-A3B-Instruct-1M-Q4_K_M.gguf CTX=131072 ./scripts/start-llama.sh
 
-# Run Pi against local server
-pi --model llama-local/local
+# Pi skills (invoke inside Pi session)
+/skill:add-feature      # implement a feature
+/skill:fix-bug          # debug and fix
+/skill:review           # code review
+/skill:implement-spec   # build out a spec
+/skill:maintain         # periodic repo maintenance
 
 # Run tests
 npm test          # node:test
@@ -23,6 +30,9 @@ pytest tests/     # Python
 
 # Run Playwright
 npx playwright test
+
+# Server health check
+bash tests/test-server-health.sh
 ```
 
 ## Architecture
@@ -54,11 +64,9 @@ Load only what is relevant to the current task.
 - `memory/gotchas.md`    — known issues: ctx caps, MTP, tensor_split, Pi compat flags
 - `memory/decisions.md`  — design decisions and their rationale
 - `patterns/start-server.md` — how to start with different models, health check, troubleshooting
-- `prompts/add-feature.md`   — workflow for implementing a feature
-- `prompts/fix-bug.md`       — workflow for debugging and fixing
-- `prompts/review.md`        — workflow for code review
-- `prompts/implement-spec.md`— workflow for building out a spec
-- `specs/`     — feature specifications
-- `tests/`     — unit, integration, and smoke tests
-- `src/`       — application source
-- `scripts/`   — operational scripts (model server, CI helpers)
+- `skills/`              — Pi slash-command workflows (add-feature, fix-bug, review, implement-spec, maintain)
+- `prompts/`             — human-readable versions of the same workflows
+- `specs/`               — feature specifications
+- `tests/`               — unit, integration, and smoke tests
+- `src/`                 — application source
+- `scripts/`             — operational scripts (model server, CI helpers)

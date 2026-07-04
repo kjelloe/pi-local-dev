@@ -1,0 +1,6 @@
+{
+  "defaultProvider": "llama-local",
+  "defaultModel": "local",
+  "enableSkillCommands": true,
+  "skills": ["./skills"]
+}
