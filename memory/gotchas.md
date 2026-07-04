@@ -21,18 +21,35 @@ noctrex-qwen3.6:35b is an MTP (Multi-Token Prediction) model. Do NOT pass spec-d
 Without `--no-mmap`, large MXFP4 MoE models can take very long to load and may cause
 page-fault latency spikes during inference.
 
+**Large MXFP4 models take 30-90 s to load**
+dev.sh polls for up to 90 s. If the server hasn't responded by then, check `/tmp/llama-server.log`.
+The most common cause is VRAM not freeing from a previous process — run `nvidia-smi` to confirm.
+
 ## Pi
 
 **Developer role not supported by llama-server**
-Set `"supportsDeveloperRole": false` in models.json. Pi sends system prompts as `developer`
-role by default; llama-server only understands `system`.
+Set `"supportsDeveloperRole": false` in `~/.pi/agent/models.json`. Pi sends system prompts as
+`developer` role by default; llama-server only understands `system`.
 
 **ReasoningEffort not supported**
 Set `"supportsReasoningEffort": false`. Local models do not implement the reasoning effort API.
 
 **Pi needs llama-server running before launch**
-Pi connects on startup; if the server isn't ready it will fail immediately. Wait for
-`llama-server` to print "server is listening" before running `pi`.
+Pi connects on startup; if the server isn't ready it will fail immediately. Use `dev.sh` (or
+`localai`) rather than launching Pi directly — it waits for the health endpoint before exec.
+
+**Skills directory must be in .pi/settings.json**
+Pi only scans for skills in directories explicitly listed under `"skills"` in settings.json.
+The repo's `.pi/settings.json` already sets `"skills": ["./skills"]`. If you add a new skills
+directory, add it to that array.
+
+**SKILL.md description field is required**
+A skill with no `description:` in its frontmatter is silently skipped — it will not appear in
+the system prompt or as a `/skill:name` command. Always include a non-empty description.
+
+**Pi project settings only apply when run from inside the repo**
+`.pi/settings.json` is loaded relative to cwd. Running Pi from a parent directory will miss
+the project settings and fall back to global — the `--model` flag will be needed.
 
 ## Hardware
 
