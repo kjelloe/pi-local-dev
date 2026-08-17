@@ -5,6 +5,8 @@ description: Investigate and fix a bug. Finds root cause, fixes it, adds a test 
 
 # Skill: Fix Bug
 
+**Model:** Coder pick from `memory/models.md` (fast, 19/19 coding).
+
 ## Steps
 
 1. Read `AGENTS.md`.

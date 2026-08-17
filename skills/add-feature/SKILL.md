@@ -5,6 +5,9 @@ description: Implement a new feature from a description or spec. Loads project c
 
 # Skill: Add Feature
 
+**Model:** Coder pick from `memory/models.md` (fast, 19/19 coding). Switch before starting if a
+slower Architect/Reviewer model is currently loaded.
+
 ## Steps
 
 1. Read `AGENTS.md` for coding rules and architecture overview.

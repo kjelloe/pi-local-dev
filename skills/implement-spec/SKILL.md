@@ -5,6 +5,10 @@ description: Build out a full specification from specs/. Loads all relevant cont
 
 # Skill: Implement Spec
 
+**Model:** Architect/Reviewer pick from `memory/models.md` for the planning step (deep reasoning,
+full context — this task explicitly waits for plan approval before coding). Switch to the Coder
+pick once the plan is approved and implementation begins, if speed matters more than review depth.
+
 ## Steps
 
 1. Read `AGENTS.md`.

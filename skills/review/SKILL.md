@@ -5,6 +5,9 @@ description: Review a diff or set of changes for correctness bugs, scope creep, 
 
 # Skill: Code Review
 
+**Model:** Architect/Reviewer pick from `memory/models.md` (deep reasoning, catches
+multi-component state bugs that faster coder-tuned models miss).
+
 ## Steps
 
 1. Read `AGENTS.md` for the coding rules that apply.

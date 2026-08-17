@@ -7,6 +7,9 @@ description: Periodic repository maintenance: extract knowledge into memory/, re
 
 Run this periodically to keep the knowledge base healthy.
 
+**Model:** Architect/Reviewer pick from `memory/models.md` — this task reasons across the whole
+repo (drift detection, knowledge extraction), not raw code throughput.
+
 ## Steps
 
 1. Read `AGENTS.md`, `ARCHITECTURE.md`, and all `memory/` docs.

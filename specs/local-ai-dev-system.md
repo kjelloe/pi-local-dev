@@ -100,5 +100,7 @@ sets the default provider and model so no `--model` flag is needed.
 | 16 GB | 14B class |
 | 24 GB | 20B–32B quantized |
 | 2×24 GB | 30B–80B MoE, large coding models |
+| 3×24 GB | 80B–120B MoE, fully GPU-resident (e.g. gpt-oss:120b) |
 
-This system: RTX 4090 (24 GB) + RTX 3090 (24 GB) = 48 GB total.
+This system: RTX 4090 (24 GB) + RTX 3090 (24 GB) + RTX 3090 (24 GB) = 72 GB total (see
+`memory/decisions.md`, 2026-08-16, for the 3rd-GPU update and its effect on model picks).

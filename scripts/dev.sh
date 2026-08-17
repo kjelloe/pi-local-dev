@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# Start llama-server (if not running) then launch Pi in this repo.
+# Start llama-server (if not running) then launch Pi against the current directory,
+# so `localai` works as a launcher from any project (e.g. ~/GIT/some-new-web-project) —
+# not just from inside this repo. localdev's skills stay available everywhere via --skill;
+# the target project's own AGENTS.md/CLAUDE.md still loads normally from its cwd.
 set -euo pipefail
 
 HEALTH_URL="http://127.0.0.1:8080/health"
@@ -29,5 +32,4 @@ else
     echo "[dev] llama-server ready"
 fi
 
-cd "$REPO_DIR"
-exec pi "$@"
+exec pi --provider llama-local --model local --skill "$REPO_DIR/skills" "$@"

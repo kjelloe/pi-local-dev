@@ -5,10 +5,16 @@
 Local AI development repository. Stack: llama-server (local model) + Pi (coding CLI).
 All project knowledge lives here — not in conversations.
 
+This repo also doubles as a launcher: `localai` starts the server (if needed) and launches Pi
+against whatever directory you're currently in, with this repo's skills and the local model
+available regardless of project — run it from `~/GIT/some-other-project` to work on that project
+directly, not just from inside `localdev`.
+
 ## Commands
 
 ```bash
-# Start server + Pi in one command (alias from anywhere)
+# Start server + Pi in one command (alias from anywhere) — operates on the CURRENT directory,
+# so `cd ~/GIT/some-project && localai` works on that project, not localdev
 localai
 
 # Or from the repo directly
@@ -16,6 +22,12 @@ localai
 
 # Override model or context (server only)
 MODEL=Qwen3-Coder-30B-A3B-Instruct-1M-Q4_K_M.gguf CTX=131072 ./scripts/start-llama.sh
+
+# Release the server (frees VRAM) — server otherwise stays warm between sessions
+localai-stop
+
+# Watch GPU temps live (hwmonitor.py auto-pauses the server on thermal CRIT, auto-resumes on recovery)
+localai-temps
 
 # Pi skills (invoke inside Pi session)
 /skill:add-feature      # implement a feature
