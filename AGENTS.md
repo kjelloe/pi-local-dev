@@ -29,6 +29,10 @@ localai-stop
 # Watch GPU temps live (hwmonitor.py auto-pauses the server on thermal CRIT, auto-resumes on recovery)
 localai-temps
 
+# Hard/L6-style tasks (e.g. node_paratrooper): always restarts to the confirmed-capable config
+# (qwen3.8:27b, single GPU, large ctx, bounded reasoning) instead of reusing the default coder model
+localai-reasoning
+
 # Pi skills (invoke inside Pi session)
 /skill:add-feature      # implement a feature
 /skill:fix-bug          # debug and fix

@@ -32,4 +32,6 @@ else
     echo "[dev] llama-server ready"
 fi
 
+"$SCRIPT_DIR/set-model-profile.py" auto
+
 exec pi --provider llama-local --model local --skill "$REPO_DIR/skills" "$@"

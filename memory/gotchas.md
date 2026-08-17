@@ -97,11 +97,15 @@ $REPO_DIR/skills` explicitly and does not `cd` into the repo, so `localai` works
 any project directory. `.pi/settings.json` still matters if you run bare `pi` from inside
 `localdev` without going through `dev.sh`.
 
-**`~/.pi/agent/models.json` model `name` is a display label only — it drifts silently**
-It does not select which GGUF loads (that's `MODEL=` / `scripts/start-llama.sh`'s default), so it
-can go stale whenever the default model changes and nothing will fail or warn. Found stale
-2026-08-16 (still said `noctrex-qwen3.6:35b` a month after the default moved to `qwopus3.6:35b`).
-Update it by hand whenever the default in `scripts/start-llama.sh` changes.
+**`~/.pi/agent/models.json`'s `contextWindow`/`maxTokens`/`name` are now auto-synced — don't hand-edit**
+Historically these drifted silently (found stale 2026-08-16; then caused a real truncation bug
+on 2026-08-17 when a stale `maxTokens` from a manual test carried over). Fixed by
+`scripts/set-model-profile.py`, called automatically by both `dev.sh` (`auto` — detects the
+actually-running model via `/props` and picks the matching profile) and `dev-reasoning.sh`
+(explicit `reasoning` profile). If you hand-edit `models.json`, the next `localai`/`localai-reasoning`
+run will just overwrite it back to whichever profile matches the running server — add a new named
+profile to `PROFILES` in `set-model-profile.py` instead of editing `models.json` directly. See
+`memory/decisions.md` (2026-08-17).
 
 **No per-call permission gating for Pi's tools**
 Unlike Claude Code, Pi has no interactive "approve this specific bash/edit call" prompt. `--tools`

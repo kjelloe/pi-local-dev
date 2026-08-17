@@ -1,5 +1,36 @@
 # Design Decisions
 
+## 2026-08-17 — localai-reasoning preset + auto-syncing models.json (closes the profile-drift class of bug)
+
+The 2026-08-16 `node_paratrooper` fix (qwen3.8:27b, single GPU, `CTX=131072`,
+`--reasoning-budget 20000`, matching `models.json` values) was applied by hand via one-off
+`nohup start-llama.sh ...` invocations — never made a persisted default. Bit twice as a result:
+re-running "the same prompt" a day later via plain `localai` silently started the *default*
+`qwopus3.6:35b` config (no `--reasoning on`, no budget, `CTX=65536`) — a model never confirmed
+capable of this task at all — and failed the same way (`maximum output token limit`) for an
+entirely different reason (no cap on unbounded reasoning) than the original bug it looked
+identical to.
+
+Fixed two ways:
+- **`scripts/dev-reasoning.sh`** (`localai-reasoning` alias): named preset mirroring `dev.sh`,
+  hardcoding the confirmed `node_paratrooper`-passing config. Unlike `dev.sh`, it *always* stops
+  and restarts the server rather than reusing whatever's running — switching to this profile is a
+  deliberate, infrequent action, so correctness beats the reload cost.
+- **`scripts/set-model-profile.py`**: syncs `~/.pi/agent/models.json`'s `contextWindow`/`maxTokens`
+  to a named profile (`coder` or `reasoning`). `dev-reasoning.sh` calls it with the explicit
+  profile right after starting its server. `dev.sh` calls it with `auto`, which queries the
+  *running* server's `/props` for the loaded GGUF filename and picks the matching profile —
+  critically, this means a plain `localai` run no longer blindly assumes "coder": if a
+  `localai-reasoning` server is still up when someone runs plain `localai` elsewhere, `auto`
+  correctly detects and keeps the reasoning profile instead of silently shrinking `maxTokens`
+  back down and reintroducing the exact truncation bug this whole arc was about fixing.
+
+Verified 2026-08-17, all three directions: `localai-reasoning` → syncs to reasoning profile and
+matches `/props`; plain `localai` while the reasoning server is still up → `auto` correctly
+detects and preserves the reasoning profile (does NOT force coder); plain `localai` from cold →
+starts the default `qwopus3.6:35b` and syncs to the coder profile. `models.json` can no longer
+drift out of sync with whatever `llama-server` is actually running through either launch path.
+
 ## 2026-08-17 — node_paratrooper (L6-full) confirmed passing through Pi, not just the raw harness
 
 Closing out the debugging arc from 2026-08-16: `qwen3.8:27b` implemented `Game` in

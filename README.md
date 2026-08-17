@@ -153,6 +153,23 @@ Adapted from `~/GIT/llm-test-bench/hwmonitor/`, whose version aborts a resumable
 CRIT — not appropriate here since it would drop an in-progress Pi coding task. See
 `memory/decisions.md` (2026-08-16) for the pause-vs-abort rationale.
 
+### 10. Hard tasks needing a reasoning model
+
+The default (`localai`) always runs the fast coder model (`qwopus3.6:35b`) — good for
+`add-feature`/`fix-bug`, but never confirmed capable of the hardest tasks (deep multi-step
+game-logic, L6-full-style problems). For those, use the named preset instead:
+
+```bash
+localai-reasoning
+```
+
+Unlike `localai`, this always stops and restarts the server (correctness over reload cost) with
+the confirmed-working config: `qwen3.8:27b`, single GPU, `CTX=131072`, `--reasoning-budget 20000`
+(hard cap on the thinking phase, so an open-ended reasoner can't eat the whole output budget and
+truncate mid-task). It also syncs `~/.pi/agent/models.json` to match — and so does plain `localai`
+now (auto-detecting whichever model is actually running via `/props`), so the two can no longer
+silently drift out of sync with each other. See `memory/decisions.md` (2026-08-17).
+
 ## Skills (slash commands inside Pi)
 
 | Command | Purpose |
